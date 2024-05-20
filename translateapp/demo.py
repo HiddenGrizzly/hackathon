@@ -1,5 +1,3 @@
-# demo.py
-
 import os
 import subprocess
 
@@ -23,10 +21,17 @@ def play_videos(directory, video_list):
     for video in video_list:
         video_path = os.path.join(directory, video)
         print(f"Đang phát video: {video}")
-        subprocess.run(["start", video_path])  
+        # Trên macOS sử dụng "open", trên Windows sử dụng "start", trên Linux sử dụng "xdg-open".
+        if os.name == 'posix':
+            subprocess.run(["open", video_path])  # macOS
+        elif os.name == 'nt':
+            # Thêm '', để không bị nhận nhầm là flag và thêm shell=True để chạy đúng trên Windows
+            subprocess.run(["cmd", "/c", "start", "", video_path], shell=True)  # Windows
+        else:
+            subprocess.run(["xdg-open", video_path])  # Linux
 
 if __name__ == "__main__":
-    video_directory = "D:\FPT_aptech" 
+    video_directory = r"D:\FPT_aptech"  # Thay thế bằng đường dẫn tới thư mục chứa video của bạn.
     user_input = input("Nhập đoạn văn bản: ")
     
     video_list = get_video_list(video_directory)
