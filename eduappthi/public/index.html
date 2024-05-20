@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Search</title>
+</head>
+
+<body>
+    <h1>Search for a Video</h1>
+    <input type="text" id="searchInput" placeholder="Enter video title">
+    <button onclick="searchVideos()">Search</button>
+    <div id="videoList"></div>
+    <video id="videoPlayer" width="600" controls></video>
+
+    <script>
+        async function searchVideos() {
+            const title = document.getElementById('searchInput').value;
+            const response = await fetch(`http://localhost:3000/api/videos?title=${title}`);
+            const videos = await response.json();
+
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = '';
+
+            if (videos.length === 0) {
+                videoList.innerHTML = '<p>No videos found</p>';
+            } else {
+                videos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.innerHTML = `<button onclick="playVideo('${video}')">${video}</button>`;
+                    videoList.appendChild(videoItem);
+                });
+            }
+        }
+
+        function playVideo(video) {
+            const videoPlayer = document.getElementById('videoPlayer');
+            videoPlayer.src = `http://localhost:3000/assets/${video}`;
+            videoPlayer.load();
+            videoPlayer.play();
+        }
+    </script>
+</body>
+
+</html>
