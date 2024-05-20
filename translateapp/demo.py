@@ -23,10 +23,10 @@ def play_videos(directory, video_list):
     for video in video_list:
         video_path = os.path.join(directory, video)
         print(f"Đang phát video: {video}")
-        subprocess.run(["start", video_path])  # Trên MacOS, sử dụng "open". Trên Windows sử dụng "start", trên Linux sử dụng "xdg-open".
+        subprocess.run(["start", video_path])  
 
 if __name__ == "__main__":
-    video_directory = "path/to/your/video/directory"  # Thay thế bằng đường dẫn tới thư mục chứa video của bạn.
+    video_directory = "D:\FPT_aptech" 
     user_input = input("Nhập đoạn văn bản: ")
     
     video_list = get_video_list(video_directory)
